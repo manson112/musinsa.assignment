@@ -21,6 +21,6 @@ if [[ "$_java" ]]; then
         ./gradlew build bootrun
     else
         sudo yum install -y java-11-amazon-corretto.x86_64
-        ./gradlw build bootrun
+        ./gradlew build bootrun
     fi
 fi
