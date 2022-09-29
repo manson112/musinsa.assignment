@@ -2,8 +2,8 @@
 
 ## 실행방법
 
-- Amazon Linux release 2 (Karoo) 및 MacOS Monterey version 12.4 에서 확인되었습니다.
-- java 11 설치를 위해 yum 이 필요하며, 설치되어있는 경우 설치하지 않고 실행합니다.
+- Amazon Linux release 2 (Karoo) 에서 확인되었습니다.
+- java 11 설치를 위해 yum 이 필요하며, java 11이 설치되어있는 경우 설치하지 않고 실행합니다.
 - java 설치 시 sudo 권한이 필요할 수 있습니다.
 
 ### 1. java 11 버전이 설치되지않은 경우
