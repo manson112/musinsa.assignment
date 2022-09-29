@@ -9,7 +9,7 @@ elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
 else
     echo "no java"
     sudo yum install -y java-11-amazon-corretto.x86_64
-    ./gradlew build bootrun
+    ./gradlew clean build bootrun
 fi
 
 if [[ "$_java" ]]; then
@@ -18,9 +18,9 @@ if [[ "$_java" ]]; then
     version=$("$_java" -version 2>&1  | head -1 | cut -d'"' -f2 | sed 's/^1\.//' | cut -d'.' -f1)
     echo version "$version"
     if [[ "$version" -eq "11" ]]; then
-        ./gradlew build bootrun
+        ./gradlew clean build bootrun
     else
         sudo yum install -y java-11-amazon-corretto.x86_64
-        ./gradlew build bootrun
+        ./gradlew clean build bootrun
     fi
 fi
