@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="callSettersOnNulls" value=""/>
+        <setting name="logImpl" value="SLF4J"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+    </settings>
+    <typeAliases>
+        <typeAlias type="manson112.github.musinsa.assignment.menus.entity.Menu" alias="Menu"/>
+        <typeAlias type="manson112.github.musinsa.assignment.menus.entity.Banner" alias="Banner"/>
+        <package name="manson112.github.musinsa.assignment.menus.controller.dto"/>
+    </typeAliases>
+</configuration>

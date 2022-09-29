@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manson112.github.musinsa.assignment.menus.repository.MenuRepository">
+    <select id="findAll" resultType="Menu">
+        select  menu_id,
+                menu_title,
+                menu_link,
+                parent_menu_id,
+                create_at,
+                update_at
+          from  menu
+      order by  parent_menu_id asc,
+                menu_id asc
+    </select>
+
+    <select id="findById" parameterType="java.lang.Long" resultType="Menu">
+        select menu_id,
+               menu_title,
+               menu_link,
+               parent_menu_id,
+               create_at,
+               update_at
+         from  menu
+        where  menu_id = #{menuId}
+    </select>
+
+    <select id="findMenuByTitle" parameterType="java.lang.String" resultType="Menu">
+        select  menu_id,
+                menu_title,
+                menu_link,
+                parent_menu_id,
+                create_at,
+                update_at
+        from  menu
+        where  menu_title = #{menuTitle}
+    </select>
+
+    <select id="findMenuHierarchy" parameterType="java.lang.Long" resultType="MenuSelectResponse">
+        with recursive ancestor (menu_id, menu_title, menu_link, parent_menu_id, update_at, depth, path, sort_order) as
+        (
+            select  menu_id,
+                    menu_title,
+                    menu_link,
+                    parent_menu_id,
+                    update_at,
+                    0 as depth,
+                    menu_title as path,
+                    cast(sort_order as char) as sort_order
+              from  menu
+            <where>
+                <choose>
+                    <when test='menuId == 0'>
+                        parent_menu_id = #{menuId}
+                    </when>
+                    <otherwise>
+                        menu_id = #{menuId}
+                    </otherwise>
+                </choose>
+            </where>
+             union all
+            select  s2.menu_id,
+                    s2.menu_title,
+                    s2.menu_link,
+                    s2.parent_menu_id,
+                    s2.update_at,
+                    s1.depth + 1 as level,
+                    s1.path || ' > ' || s2.menu_title as path,
+                    s1.sort_order || ',' || cast(s2.sort_order as char) as sort_order
+              from  ancestor s1
+              join  menu s2
+                on  s1.menu_id = s2.parent_menu_id
+        )
+
+        select menu_id,
+               menu_title,
+               menu_link,
+               parent_menu_id,
+               update_at,
+               depth,
+               path,
+               sort_order
+          from ancestor
+      order by sort_order asc,
+               update_at desc,
+               path asc
+    </select>
+
+    <insert id="createMenu" parameterType="MenuCreateRequest">
+        <selectKey keyProperty="menuId" resultType="java.lang.Long" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into menu(menu_title, menu_link, sort_order, parent_menu_id, create_at, update_at)
+        values (#{menuTitle}, #{menuLink}, #{sortOrder}, #{parentMenuId}, #{createAt}, #{updateAt})
+    </insert>
+
+    <update id="updateMenu" parameterType="MenuUpdateRequest">
+        update  menu
+           set  menu_title      = #{menuTitle},
+                menu_link       = #{menuLink},
+                sort_order      = #{sortOrder},
+                parent_menu_id  = #{parentMenuId},
+                update_at       = #{updateAt}
+         where  menu_id = #{menuId}
+    </update>
+
+    <delete id="deleteMenu" parameterType="java.lang.Long">
+        delete from menu
+              where menu_id = #{menuId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from menu
+    </delete>
+
+</mapper>

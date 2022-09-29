@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manson112.github.musinsa.assignment.menus.repository.BannerRepository">
+    <select id="findById" parameterType="java.lang.Long" resultType="Banner">
+        select  banner_id,
+                banner_link,
+                banner_image_url,
+                menu_id
+          from  banner
+         where  banner_id = #{bannerId}
+    </select>
+
+    <select id="findByMenuId" parameterType="java.lang.Long" resultType="Banner">
+        select  banner_id,
+                banner_link,
+                banner_image_url,
+                menu_id
+          from  banner
+         where  menu_id = #{menuId}
+    </select>
+
+    <insert id="createBanner" parameterType="Banner">
+        <selectKey keyProperty="bannerId" resultType="java.lang.Long" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into banner (banner_link, banner_image_url, menu_id)
+        values (#{bannerLink}, #{bannerImageUrl}, #{menuId})
+    </insert>
+
+    <delete id="deleteBanner" parameterType="java.lang.Long">
+        delete from banner
+        where banner_id = #{bannerId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from banner
+    </delete>
+</mapper>
