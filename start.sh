@@ -13,12 +13,14 @@ else
 fi
 
 if [[ "$_java" ]]; then
-    version=$("$_java" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  java -version 2>&1 \
+
+    version=$("$_java" -version 2>&1  | head -1 | cut -d'"' -f2 | sed 's/^1\.//' | cut -d'.' -f1)
     echo version "$version"
-    if [[ "$version" -gt "11" ]]; then
+    if [[ "$version" -eq "11" ]]; then
         ./gradlew build bootrun
     else
-        sudm yum install -y java-11-amazon-corretto.x86_64
+        sudo yum install -y java-11-amazon-corretto.x86_64
         ./gradlw build bootrun
     fi
 fi
