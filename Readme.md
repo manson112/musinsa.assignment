@@ -66,4 +66,6 @@ chmod +x start.sh
 
 
 ## Swagger
+서버 실행 후 
 [Swagger Link](http://localhost:8080/swagger-ui/index.html)
+로 접속
