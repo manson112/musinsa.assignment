@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import manson112.github.musinsa.assignment.menus.controller.dto.*;
 import manson112.github.musinsa.assignment.menus.entity.Menu;
 import manson112.github.musinsa.assignment.menus.repository.MenuRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +26,7 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MenuRestControllerTest {
 
     @Autowired
@@ -42,7 +41,7 @@ class MenuRestControllerTest {
     @DisplayName("메뉴 조회 (단건) 성공 (배너X) 테스트")
     @Order(1)
     public void findByIdTest01() throws Exception {
-        Long menuId = 190L;
+        Long menuId = 2L;
 
         ResultActions result = mockMvc.perform(
                 get("/api/menus")
@@ -63,7 +62,9 @@ class MenuRestControllerTest {
                 .andExpect(jsonPath("$.response.depth").doesNotExist())
                 .andExpect(jsonPath("$.response.path").doesNotExist())
                 .andExpect(jsonPath("$.response.sortOrder", is("0")))
-                .andExpect(jsonPath("$.response.banners").doesNotExist())
+                .andExpect(jsonPath("$.response.banners").exists())
+                .andExpect(jsonPath("$.response.banners").isArray())
+                .andExpect(jsonPath("$.response.banners").isEmpty())
                 .andExpect(jsonPath("$.error").doesNotExist())
                 ;
     }
@@ -95,6 +96,7 @@ class MenuRestControllerTest {
                 .andExpect(jsonPath("$.response.sortOrder", is("0")))
                 .andExpect(jsonPath("$.response.banners").exists())
                 .andExpect(jsonPath("$.response.banners").isArray())
+                .andExpect(jsonPath("$.response.banners").isNotEmpty())
                 .andExpect(jsonPath("$.response.banners[0].menuId").value(menuId))
                 .andExpect(jsonPath("$.error").doesNotExist())
         ;
@@ -228,7 +230,7 @@ class MenuRestControllerTest {
     @DisplayName("하위메뉴 포함 조회 성공 (배너X) 테스트")
     @Order(8)
     public void findMenuHierarchyTest03() throws Exception {
-        Long menuId = 190L;
+        Long menuId = 2L;
         ResultActions result = mockMvc.perform(
                 get("/api/menus/hierarchy")
                         .accept(MediaType.APPLICATION_JSON)
@@ -245,7 +247,9 @@ class MenuRestControllerTest {
                 .andExpect(jsonPath("$.response[0].menuId").value(menuId))
                 .andExpect(jsonPath("$.response[0].depth", is(0)))
                 .andExpect(jsonPath("$.response[0].path").exists())
-                .andExpect(jsonPath("$.response[0].banners").doesNotExist())
+                .andExpect(jsonPath("$.response[0].banners").exists())
+                .andExpect(jsonPath("$.response[0].banners").isArray())
+                .andExpect(jsonPath("$.response[0].banners").isEmpty())
                 .andExpect(jsonPath("$.error").doesNotExist())
         ;
     }
@@ -541,7 +545,7 @@ class MenuRestControllerTest {
     @DisplayName("메뉴 삭제 성공 테스트")
     @Order(18)
     public void deleteMenuTest01() throws Exception {
-        Long menuId = 192L;
+        Long menuId = 22L;
         MenuDeleteRequest request = new MenuDeleteRequest(menuId);
 
         Menu menu = menuRepository.findById(menuId).get();

@@ -2,9 +2,7 @@ package manson112.github.musinsa.assignment.menus.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import manson112.github.musinsa.assignment.menus.controller.dto.BannerDeleteRequest;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +24,7 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BannerRestControllerTest {
 
     @Autowired
@@ -49,7 +48,7 @@ class BannerRestControllerTest {
 
 
     @Test
-    @DisplayName("배너 생성 테스트 - 성공")
+    @DisplayName("배너 생성 성공")
     @Order(1)
     void createBannerTest01() throws Exception {
         Map<String, Object> requestMap = generateBannerMap(2L, "https://bannerLink.com", "https://bannerImage.com?image=he21cd");
@@ -67,7 +66,7 @@ class BannerRestControllerTest {
                 .andExpect(handler().methodName("createBanner"))
                 .andExpect(jsonPath("$.success", is(true)))
                 .andExpect(jsonPath("$.response").exists())
-                .andExpect(jsonPath("$.response.bannerId", is(19)))
+                .andExpect(jsonPath("$.response.bannerId", is(18)))
                 .andExpect(jsonPath("$.response.bannerId").isNumber())
                 .andExpect(jsonPath("$.response.menuId", is(2)))
                 .andExpect(jsonPath("$.response.menuId").isNumber())
@@ -76,7 +75,7 @@ class BannerRestControllerTest {
     }
 
     @Test
-    @DisplayName("배너 생성 테스트 - 실패: 존재하지 않는 메뉴ID")
+    @DisplayName("배너 생성 실패: 존재하지 않는 메뉴ID")
     @Order(2)
     public void createBannerTest02() throws Exception {
         Long menuId = Long.MAX_VALUE;
@@ -100,7 +99,7 @@ class BannerRestControllerTest {
     }
 
     @Test
-    @DisplayName("배너 생성 테스트 - 실패: 메뉴ID NULL")
+    @DisplayName("배너 생성 실패: 메뉴ID NULL")
     @Order(3)
     public void createBannerTest03() throws Exception {
         Map<String, Object> requestMap = generateBannerMap(null, "https://bannerLink.com", "https://bannerImage.com?image=he21cd");
@@ -124,7 +123,7 @@ class BannerRestControllerTest {
     }
 
     @Test
-    @DisplayName("배너 생성 테스트 - 실패: 배너링크, 배너이미지URL 형식")
+    @DisplayName("배너 생성 실패: 배너링크, 배너이미지 URL 형식")
     @Order(4)
     public void createBannerTest04() throws Exception {
         List<Map<String, Object>> requestMapList = List.of(generateBannerMap(2L, "bannerLink.com", "https://123.com"),
@@ -154,7 +153,7 @@ class BannerRestControllerTest {
 
 
     @Test
-    @DisplayName("배너 삭제 테스트 - 성공")
+    @DisplayName("배너 삭제 성공")
     @Order(5)
     public void bannerDeleteTest01() throws Exception {
         Long bannerId = 1L;
@@ -177,7 +176,7 @@ class BannerRestControllerTest {
     }
 
     @Test
-    @DisplayName("배너 삭제 테스트 - 실패: 배너ID NULL")
+    @DisplayName("배너 삭제 실패: 배너ID NULL")
     @Order(6)
     public void bannerDeleteTest02() throws Exception {
         BannerDeleteRequest request = new BannerDeleteRequest(null);
@@ -201,7 +200,7 @@ class BannerRestControllerTest {
     }
 
     @Test
-    @DisplayName("배너 삭제 테스트 - 실패: 배너ID (0, -1)")
+    @DisplayName("배너 삭제 실패: 배너ID (0, -1)")
     @Order(7)
     public void bannerDeleteTest03() throws Exception {
         Long[] bannerIdList = new Long[] {0L, -1L};

@@ -238,8 +238,3 @@ insert into banner(banner_link, banner_image_url, menu_id) values ('https://bann
 insert into banner(banner_link, banner_image_url, menu_id) values ('https://bannerLink16.co.kr', 'https://imageLink.com', 1);
 insert into banner(banner_link, banner_image_url, menu_id) values ('https://bannerLink17.co.kr', 'https://imageLink.com', 1);
 insert into banner(banner_link, banner_image_url, menu_id) values ('https://bannerLink18.co.kr', 'https://imageLink.com', 1);
-
-
-
-
-
