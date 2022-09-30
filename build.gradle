@@ -37,6 +37,15 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
 }
 
+test {
+	doFirst {
+		systemProperty("spring.profiles.active", "test")
+	}
+	afterTest { desc, result ->
+		logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
