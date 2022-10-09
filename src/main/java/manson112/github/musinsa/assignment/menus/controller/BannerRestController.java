@@ -6,13 +6,10 @@ import manson112.github.musinsa.assignment.menus.controller.dto.BannerCreateResp
 import manson112.github.musinsa.assignment.menus.controller.dto.BannerDeleteRequest;
 import manson112.github.musinsa.assignment.menus.controller.dto.BannerDeleteResponse;
 import manson112.github.musinsa.assignment.menus.service.BannerService;
-import manson112.github.musinsa.assignment.utils.ApiUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
-import static manson112.github.musinsa.assignment.utils.ApiUtils.success;
 
 
 /**
@@ -29,17 +26,17 @@ public class BannerRestController {
     private final BannerService bannerService;
 
     @PostMapping
-    public ApiUtils.ApiResult<BannerCreateResponse> createBanner(
+    public BannerCreateResponse createBanner(
             @Valid @RequestBody BannerCreateRequest bannerCreateRequest
     ) {
-       return success(bannerService.createBanner(bannerCreateRequest));
+       return bannerService.createBanner(bannerCreateRequest);
     }
 
     @DeleteMapping
-    public ApiUtils.ApiResult<BannerDeleteResponse> deleteBanner(
+    public BannerDeleteResponse deleteBanner(
            @Valid @RequestBody BannerDeleteRequest bannerDeleteRequest
     ) {
-        return success(bannerService.deleteBanner(bannerDeleteRequest));
+        return bannerService.deleteBanner(bannerDeleteRequest);
     }
 }
 
