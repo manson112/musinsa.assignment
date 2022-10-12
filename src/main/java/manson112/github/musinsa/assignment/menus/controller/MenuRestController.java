@@ -3,9 +3,6 @@ package manson112.github.musinsa.assignment.menus.controller;
 import lombok.RequiredArgsConstructor;
 import manson112.github.musinsa.assignment.menus.controller.dto.*;
 import manson112.github.musinsa.assignment.menus.service.MenuService;
-import manson112.github.musinsa.assignment.utils.ApiUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static manson112.github.musinsa.assignment.utils.ApiUtils.success;
 
 @Validated
 @RestController
@@ -23,38 +19,38 @@ public class MenuRestController {
     private final MenuService menuService;
 
     @GetMapping
-    public ApiUtils.ApiResult<MenuSelectResponse> findById(
-            @ModelAttribute @Valid MenuSelectRequest menuSelectRequest
+    public MenuSelectResponse findById(
+            @Valid MenuSelectRequest menuSelectRequest
     ) {
-        return success(menuService.findById(menuSelectRequest));
+        return menuService.findById(menuSelectRequest);
     }
 
     @GetMapping("/hierarchy")
-    public ApiUtils.ApiResult<List<MenuSelectResponse>> findMenuHierarchy(
-            @Valid @ModelAttribute MenuSelectRequest menuSelectRequest
+    public List<MenuSelectResponse> findMenuHierarchy(
+            @Valid MenuSelectRequest menuSelectRequest
     ) {
-        return success(menuService.findMenuHierarchy(menuSelectRequest));
+        return menuService.findMenuHierarchy(menuSelectRequest);
     }
 
     @PostMapping
-    public ApiUtils.ApiResult<MenuCreateResponse> createMenu(
+    public MenuCreateResponse createMenu(
             @Valid @RequestBody MenuCreateRequest menuCreateRequest
     ) {
-        return success(menuService.createMenu(menuCreateRequest));
+        return menuService.createMenu(menuCreateRequest);
     }
 
     @PutMapping
-    public ApiUtils.ApiResult<MenuUpdateResponse> updateMenu(
+    public MenuUpdateResponse updateMenu(
             @Valid @RequestBody MenuUpdateRequest menuUpdateRequest
     ) {
-        return success(menuService.updateMenu(menuUpdateRequest));
+        return menuService.updateMenu(menuUpdateRequest);
     }
 
     @DeleteMapping
-    public ApiUtils.ApiResult<MenuDeleteResponse> deleteMenu(
+    public MenuDeleteResponse deleteMenu(
             @Valid @RequestBody MenuDeleteRequest menuDeleteRequest
     ) {
-        return success(menuService.deleteMenu(menuDeleteRequest));
+        return menuService.deleteMenu(menuDeleteRequest);
     }
 
 }

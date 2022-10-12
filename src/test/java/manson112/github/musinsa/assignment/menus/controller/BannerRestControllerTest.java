@@ -51,8 +51,7 @@ class BannerRestControllerTest {
     @DisplayName("배너 생성 성공")
     @Order(1)
     void createBannerTest01() throws Exception {
-        Map<String, Object> requestMap = generateBannerMap(2L, "https://bannerLink.com", "https://bannerImage.com?image=he21cd");
-
+        Map<String, Object> requestMap = generateBannerMap(3L, "https://bannerLink.com", "https://bannerImage.com?image=he21cd");
         ResultActions result = mockMvc.perform(
             post("/api/banners")
             .accept(MediaType.APPLICATION_JSON)
@@ -68,7 +67,7 @@ class BannerRestControllerTest {
                 .andExpect(jsonPath("$.response").exists())
                 .andExpect(jsonPath("$.response.bannerId", is(18)))
                 .andExpect(jsonPath("$.response.bannerId").isNumber())
-                .andExpect(jsonPath("$.response.menuId", is(2)))
+                .andExpect(jsonPath("$.response.menuId", is(3)))
                 .andExpect(jsonPath("$.response.menuId").isNumber())
                 .andExpect(jsonPath("$.error").doesNotExist())
                 ;
